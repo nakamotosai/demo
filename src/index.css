@@ -1,0 +1,788 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border-default: var(--border-default);
+
+  --radius-custom: var(--radius);
+  --shadow-custom: var(--shadow);
+  --accent-rgb: 59, 130, 246;
+  /* Default for Minimal */
+}
+
+:root {
+  /* 1. Modern Minimal (Default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-default: #e2e8f0;
+  --radius: 0.5rem;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --blur: 0px;
+}
+
+/* 2. Glassmorphism */
+[data-theme="glassmorphism"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: rgba(30, 41, 59, 0.7);
+  --accent: #818cf8;
+  --accent-foreground: #ffffff;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --border-default: rgba(255, 255, 255, 0.1);
+  --radius: 1rem;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --blur: 12px;
+}
+
+/* 3. Neo-Brutalism */
+[data-theme="neo-brutalism"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f0f0;
+  --accent: #ffff00;
+  --accent-foreground: #000000;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --border-default: #000000;
+  --radius: 0px;
+  --shadow: 4px 4px 0px 0px #000000;
+  --blur: 0px;
+}
+
+/* 4. Soft UI (Neumorphism) */
+[data-theme="soft-ui"] {
+  --bg-primary: #e0e5ec;
+  --bg-secondary: #e0e5ec;
+  --accent: #6d5dfc;
+  --accent-foreground: #ffffff;
+  --text-primary: #4a5568;
+  --text-secondary: #a0a5b9;
+  --border-default: transparent;
+  --radius: 1.5rem;
+  --shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  --blur: 0px;
+}
+
+/* 5. Claymorphism */
+[data-theme="claymorphism"] {
+  --bg-primary: #f0f4f8;
+  --bg-secondary: #ffffff;
+  --accent: #ff6b6b;
+  --accent-foreground: #ffffff;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --border-default: transparent;
+  --radius: 2rem;
+  --shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff, inset 2px 2px 4px rgba(255, 255, 255, 0.5), inset -2px -2px 4px rgba(0, 0, 0, 0.05);
+  --blur: 0px;
+}
+
+/* 6. Flat Design */
+[data-theme="flat"] {
+  --bg-primary: #ecf0f1;
+  --bg-secondary: #ffffff;
+  --accent: #e74c3c;
+  --accent-foreground: #ffffff;
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --border-default: transparent;
+  --radius: 0.25rem;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 7. Material V2 */
+[data-theme="material"] {
+  --bg-primary: #fafafa;
+  --bg-secondary: #ffffff;
+  --accent: #6200ee;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #757575;
+  --border-default: #e0e0e0;
+  --radius: 4px;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.14), 0 3px 4px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.2);
+  --blur: 0px;
+}
+
+/* 8. Cyberpunk */
+[data-theme="cyberpunk"] {
+  --bg-primary: #0b0b0b;
+  --bg-secondary: #1a1a1a;
+  --accent: #00ff9d;
+  --accent-foreground: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #00ff9d;
+  --border-default: #00ff9d;
+  --radius: 0px;
+  --shadow: 0 0 10px #00ff9d;
+  --blur: 0px;
+}
+
+/* 9. Retro Pixel */
+[data-theme="retro"] {
+  --bg-primary: #2b2b2b;
+  --bg-secondary: #3c3c3c;
+  --accent: #ff0055;
+  --accent-foreground: #ffffff;
+  --text-primary: #00ff00;
+  --text-secondary: #cccccc;
+  --border-default: #ffffff;
+  --radius: 0px;
+  --shadow: 4px 4px 0 #000000;
+  /* Block shadow */
+  --blur: 0px;
+}
+
+/* 10. Dark OLED */
+[data-theme="oled"] {
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --border-default: #333333;
+  --radius: 0.75rem;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 11. Terminal */
+[data-theme="terminal"] {
+  --bg-primary: #0c0c0c;
+  --bg-secondary: #1e1e1e;
+  --accent: #0f0;
+  --accent-foreground: #000000;
+  --text-primary: #0f0;
+  --text-secondary: #008000;
+  --border-default: #0f0;
+  --radius: 0px;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 12. Paper / E-Ink */
+[data-theme="paper"] {
+  --bg-primary: #fdfbf7;
+  --bg-secondary: #f4ecd8;
+  --accent: #2c2c2c;
+  --accent-foreground: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #595959;
+  --border-default: #d1c7b7;
+  --radius: 2px;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 13. Nord */
+[data-theme="nord"] {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --accent: #88c0d0;
+  --accent-foreground: #2e3440;
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --border-default: #4c566a;
+  --radius: 0.375rem;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --blur: 0px;
+}
+
+/* 14. Dracula */
+[data-theme="dracula"] {
+  --bg-primary: #282a36;
+  --bg-secondary: #44475a;
+  --accent: #ff79c6;
+  --accent-foreground: #282a36;
+  --text-primary: #f8f8f2;
+  --text-secondary: #6272a4;
+  --border-default: #6272a4;
+  --radius: 0.5rem;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --blur: 0px;
+}
+
+/* 15. Monokai */
+[data-theme="monokai"] {
+  --bg-primary: #272822;
+  --bg-secondary: #3e3d32;
+  --accent: #a6e22e;
+  --accent-foreground: #272822;
+  --text-primary: #f8f8f2;
+  --text-secondary: #75715e;
+  --border-default: #75715e;
+  --radius: 0.25rem;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --blur: 0px;
+}
+
+/* 16. Solarized Light */
+[data-theme="solarized-light"] {
+  --bg-primary: #fdf6e3;
+  --bg-secondary: #eee8d5;
+  --accent: #268bd2;
+  --accent-foreground: #ffffff;
+  --text-primary: #657b83;
+  --text-secondary: #93a1a1;
+  --border-default: #93a1a1;
+  --radius: 0.25rem;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --blur: 0px;
+}
+
+/* 17. Solarized Dark */
+[data-theme="solarized-dark"] {
+  --bg-primary: #002b36;
+  --bg-secondary: #073642;
+  --accent: #b58900;
+  --accent-foreground: #002b36;
+  --text-primary: #839496;
+  --text-secondary: #586e75;
+  --border-default: #586e75;
+  --radius: 0.25rem;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --blur: 0px;
+}
+
+/* 18. Gruvbox */
+[data-theme="gruvbox"] {
+  --bg-primary: #282828;
+  --bg-secondary: #3c3836;
+  --accent: #fabd2f;
+  --accent-foreground: #282828;
+  --text-primary: #ebdbb2;
+  --text-secondary: #a89984;
+  --border-default: #504945;
+  --radius: 0.25rem;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --blur: 0px;
+}
+
+/* 19. Catppuccin */
+[data-theme="catppuccin"] {
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #313244;
+  --accent: #cba6f7;
+  --accent-foreground: #1e1e2e;
+  --text-primary: #cdd6f4;
+  --text-secondary: #a6adc8;
+  --border-default: #45475a;
+  --radius: 0.75rem;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --blur: 0px;
+}
+
+/* 20. Synthwave */
+[data-theme="synthwave"] {
+  --bg-primary: #2b213a;
+  --bg-secondary: #44315f;
+  --accent: #ff2a6d;
+  --accent-foreground: #ffffff;
+  --text-primary: #05d9e8;
+  --text-secondary: #d1effe;
+  --border-default: #ff2a6d;
+  --radius: 0px;
+  --shadow: 0 0 10px #ff2a6d, 0 0 20px #05d9e8;
+  --blur: 0px;
+}
+
+/* 21. Windows 95 */
+[data-theme="win95"] {
+  --bg-primary: #c0c0c0;
+  --bg-secondary: #dfdfdf;
+  --accent: #000080;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #505050;
+  --border-default: #808080;
+  --radius: 0px;
+  --shadow: inset 1px 1px #ffffff, inset -1px -1px #000000, inset 2px 2px #dfdfdf, inset -2px -2px #808080;
+  --blur: 0px;
+}
+
+/* 22. iOS 7+ */
+[data-theme="ios"] {
+  --bg-primary: #f2f2f7;
+  --bg-secondary: #ffffff;
+  --accent: #007aff;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #8e8e93;
+  --border-default: #d1d1d6;
+  --radius: 0.8rem;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --blur: 20px;
+}
+
+/* 23. Fluent Design */
+[data-theme="fluent"] {
+  --bg-primary: #f3f3f3;
+  --bg-secondary: rgba(255, 255, 255, 0.8);
+  --accent: #0078d4;
+  --accent-foreground: #ffffff;
+  --text-primary: #2d2d2d;
+  --text-secondary: #6e6e6e;
+  --border-default: rgba(0, 0, 0, 0.05);
+  --radius: 0.5rem;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --blur: 16px;
+}
+
+/* 24. High Contrast */
+[data-theme="high-contrast"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #000000;
+  --accent: #0000ff;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --border-default: #000000;
+  --radius: 0px;
+  --shadow: 0 0 0 2px #000000;
+  --blur: 0px;
+}
+
+/* 25. Nature */
+[data-theme="nature"] {
+  --bg-primary: #eff5ed;
+  --bg-secondary: #ffffff;
+  --accent: #4a7c59;
+  --accent-foreground: #ffffff;
+  --text-primary: #2c4a34;
+  --text-secondary: #6b8c78;
+  --border-default: #c8dacb;
+  --radius: 1rem;
+  --shadow: 0 2px 8px rgba(74, 124, 89, 0.1);
+  --blur: 0px;
+}
+
+/* 26. Ocean */
+[data-theme="ocean"] {
+  --bg-primary: #f0f8ff;
+  --bg-secondary: #ffffff;
+  --accent: #0077be;
+  --accent-foreground: #ffffff;
+  --text-primary: #004466;
+  --text-secondary: #609ab6;
+  --border-default: #bde0ff;
+  --radius: 0.75rem;
+  --shadow: 0 2px 8px rgba(0, 119, 190, 0.15);
+  --blur: 0px;
+}
+
+/* 27. Sunset */
+[data-theme="sunset"] {
+  --bg-primary: #fff5eb;
+  --bg-secondary: #ffffff;
+  --accent: #ff7e5f;
+  --accent-foreground: #ffffff;
+  --text-primary: #5e2d1d;
+  --text-secondary: #a86e58;
+  --border-default: #ffd1b3;
+  --radius: 1rem;
+  --shadow: 0 4px 12px rgba(255, 126, 95, 0.2);
+  --blur: 0px;
+}
+
+/* 28. Berry */
+[data-theme="berry"] {
+  --bg-primary: #faedf0;
+  --bg-secondary: #ffffff;
+  --accent: #d63384;
+  --accent-foreground: #ffffff;
+  --text-primary: #5a0b2e;
+  --text-secondary: #a6587c;
+  --border-default: #f3c2d6;
+  --radius: 1rem;
+  --shadow: 0 4px 10px rgba(214, 51, 132, 0.15);
+  --blur: 0px;
+}
+
+/* 29. Royal */
+[data-theme="royal"] {
+  --bg-primary: #120a2e;
+  --bg-secondary: #1f1245;
+  --accent: #ffd700;
+  --accent-foreground: #120a2e;
+  --text-primary: #ffffff;
+  --text-secondary: #a89ec9;
+  --border-default: #ffd700;
+  --radius: 0.25rem;
+  --shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+  --blur: 0px;
+}
+
+/* 30. Luxury */
+[data-theme="luxury"] {
+  --bg-primary: #000000;
+  --bg-secondary: #1a1a1a;
+  --accent: #d4af37;
+  --accent-foreground: #000000;
+  --text-primary: #f5f5f5;
+  --text-secondary: #999999;
+  --border-default: #333333;
+  --radius: 0px;
+  --shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+  --blur: 0px;
+}
+
+/* 31. Coffee */
+[data-theme="coffee"] {
+  --bg-primary: #f5f0eb;
+  --bg-secondary: #ffffff;
+  --accent: #6f4e37;
+  --accent-foreground: #ffffff;
+  --text-primary: #3e2723;
+  --text-secondary: #795548;
+  --border-default: #d7ccc8;
+  --radius: 0.5rem;
+  --shadow: 0 2px 6px rgba(111, 78, 55, 0.15);
+  --blur: 0px;
+}
+
+/* 32. Mint */
+[data-theme="mint"] {
+  --bg-primary: #e6fffa;
+  --bg-secondary: #ffffff;
+  --accent: #38b2ac;
+  --accent-foreground: #ffffff;
+  --text-primary: #234e52;
+  --text-secondary: #4fd1c5;
+  --border-default: #b2f5ea;
+  --radius: 1.5rem;
+  --shadow: 0 2px 8px rgba(56, 178, 172, 0.1);
+  --blur: 0px;
+}
+
+/* 33. Lavender */
+[data-theme="lavender"] {
+  --bg-primary: #f3e8ff;
+  --bg-secondary: #ffffff;
+  --accent: #a855f7;
+  --accent-foreground: #ffffff;
+  --text-primary: #581c87;
+  --text-secondary: #c084fc;
+  --border-default: #e9d5ff;
+  --radius: 1rem;
+  --shadow: 0 2px 10px rgba(168, 85, 247, 0.15);
+  --blur: 0px;
+}
+
+/* 34. Sky */
+[data-theme="sky"] {
+  --bg-primary: #e0f2fe;
+  --bg-secondary: #ffffff;
+  --accent: #0ea5e9;
+  --accent-foreground: #ffffff;
+  --text-primary: #0c4a6e;
+  --text-secondary: #7dd3fc;
+  --border-default: #bae6fd;
+  --radius: 0.75rem;
+  --shadow: 0 2px 8px rgba(14, 165, 233, 0.15);
+  --blur: 0px;
+}
+
+/* 35. Canary */
+[data-theme="canary"] {
+  --bg-primary: #fefce8;
+  --bg-secondary: #ffffff;
+  --accent: #eab308;
+  --accent-foreground: #000000;
+  --text-primary: #713f12;
+  --text-secondary: #ca8a04;
+  --border-default: #fef08a;
+  --radius: 0.5rem;
+  --shadow: 0 2px 8px rgba(234, 179, 8, 0.15);
+  --blur: 0px;
+}
+
+/* 36. Midnight */
+[data-theme="midnight"] {
+  --bg-primary: #172554;
+  --bg-secondary: #1e3a8a;
+  --accent: #93c5fd;
+  --accent-foreground: #172554;
+  --text-primary: #eff6ff;
+  --text-secondary: #bfdbfe;
+  --border-default: #2563eb;
+  --radius: 0.75rem;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --blur: 0px;
+}
+
+/* 37. Forest */
+[data-theme="forest"] {
+  --bg-primary: #052e16;
+  --bg-secondary: #14532d;
+  --accent: #4ade80;
+  --accent-foreground: #052e16;
+  --text-primary: #f0fdf4;
+  --text-secondary: #86efac;
+  --border-default: #166534;
+  --radius: 0.5rem;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  --blur: 0px;
+}
+
+/* 38. Wireframe */
+[data-theme="wireframe"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --border-default: #000000;
+  --radius: 0px;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* Extra dashed border simulated via generic border-default usage */
+
+/* 39. Skeleton */
+[data-theme="skeleton"] {
+  --bg-primary: #e5e7eb;
+  --bg-secondary: #d1d5db;
+  --accent: #9ca3af;
+  --accent-foreground: #ffffff;
+  --text-primary: #374151;
+  --text-secondary: #6b7280;
+  --border-default: #9ca3af;
+  --radius: 0.5rem;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 40. Hand Drawn (simulated) */
+[data-theme="hand-drawn"] {
+  --bg-primary: #fffdf5;
+  --bg-secondary: #ffffff;
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-default: #1e293b;
+  --radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --shadow: 2px 2px 0px 0px #000000;
+  --blur: 0px;
+}
+
+/* 41. Corporate */
+[data-theme="corporate"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --accent: #1d4ed8;
+  --accent-foreground: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-default: #d1d5db;
+  --radius: 0rem;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --blur: 0px;
+}
+
+/* 42. Startup */
+[data-theme="startup"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --accent: #6366f1;
+  --accent-foreground: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --border-default: #e2e8f0;
+  --radius: 0.8rem;
+  --shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.2);
+  --blur: 0px;
+}
+
+/* 43. Bauhaus */
+[data-theme="bauhaus"] {
+  --bg-primary: #f0f0f0;
+  --bg-secondary: #ffffff;
+  --accent: #0052cc;
+  --accent-foreground: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #808080;
+  --border-default: #1a1a1a;
+  --radius: 0px;
+  --shadow: 8px 8px 0 #cc0000;
+  --blur: 0px;
+}
+
+/* 44. Swiss */
+[data-theme="swiss"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --accent: #ff3b3b;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #595959;
+  --border-default: transparent;
+  --radius: 0px;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* 45. Lo-Fi */
+[data-theme="lofi"] {
+  --bg-primary: #f1f1f1;
+  --bg-secondary: #ffffff;
+  --accent: #111111;
+  --accent-foreground: #ffffff;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --border-default: #111111;
+  --radius: 0px;
+  --shadow: 1px 1px 0 #000000;
+  --blur: 0px;
+}
+
+/* 46. Vaporwave */
+[data-theme="vaporwave"] {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #252a42;
+  --accent: #ff00ff;
+  --accent-foreground: #ffffff;
+  --text-primary: #00ffff;
+  --text-secondary: #ff00ff;
+  --border-default: #00ffff;
+  --radius: 0px;
+  --shadow: 4px 4px 0 #ff00ff;
+  --blur: 0px;
+}
+
+/* 47. Y2K */
+[data-theme="y2k"] {
+  --bg-primary: #ffebf9;
+  --bg-secondary: #ffffff;
+  --accent: #ff0099;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #999999;
+  --border-default: #cccccc;
+  --radius: 12px;
+  --shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.1);
+  /* Plastic look */
+  --blur: 0px;
+}
+
+/* 48. Pop Art */
+[data-theme="pop-art"] {
+  --bg-primary: #ffde59;
+  --bg-secondary: #ffffff;
+  --accent: #ff0000;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --border-default: #000000;
+  --radius: 20px;
+  --shadow: 5px 5px 0 #000000;
+  --blur: 0px;
+}
+
+/* 49. Gothic */
+[data-theme="gothic"] {
+  --bg-primary: #0c090a;
+  --bg-secondary: #1f1f1f;
+  --accent: #7a0000;
+  --accent-foreground: #ffffff;
+  --text-primary: #d3d3d3;
+  --text-secondary: #696969;
+  --border-default: #444444;
+  --radius: 2px;
+  --shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  --blur: 0px;
+}
+
+/* 50. Dashed / Draft */
+[data-theme="dashed"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --accent: #2563eb;
+  --accent-foreground: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #6b7280;
+  --border-default: #000000;
+  --radius: 0.5rem;
+  --shadow: none;
+  --blur: 0px;
+}
+
+/* Special Overrides for specific themes */
+[data-theme="wireframe"] .glass-card,
+[data-theme="wireframe"] button,
+[data-theme="wireframe"] input,
+[data-theme="wireframe"] select {
+  border: 1px dashed var(--border-default);
+}
+
+[data-theme="dashed"] .glass-card,
+[data-theme="dashed"] button {
+  border: 2px dashed var(--border-default);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.glass-card {
+  background: var(--bg-secondary);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-custom);
+}
+
+.brutal-btn {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  transition: transform 0.1s;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
