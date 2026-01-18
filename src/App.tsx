@@ -298,7 +298,7 @@ const App = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto h-[calc(100vh-8rem)] md:h-screen custom-scrollbar relative">
+            <main className="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto overflow-x-hidden h-[calc(100vh-8rem)] md:h-screen custom-scrollbar relative">
                 {/* Navbar Demo - Hidden on Mobile since we have Top Controls */}
                 <nav className="glass-card px-6 py-4 hidden md:flex items-center justify-between sticky top-0 z-50">
                     <div className="flex items-center gap-8">
@@ -357,17 +357,17 @@ const App = () => {
                 {layoutMode === 'classic' && (
                     <>
                         {/* Hero Section */}
-                        <section className="text-center py-12 space-y-6">
+                        <section className="text-left py-12 space-y-6">
                             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-bold animate-pulse">
                                 <Zap size={14} /> New Style: {themes.find(t => t.id === currentTheme)?.name}
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-black tracking-tight max-w-4xl mx-auto leading-none">
-                                Design <span className="text-accent">Everything</span> faster than light.
+                            <h2 className="text-7xl font-black tracking-tight max-w-4xl leading-[0.9]">
+                                Design <br className="md:hidden" /> <span className="text-accent">Themes</span> <br className="md:hidden" /> faster than light.
                             </h2>
-                            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+                            <p className="text-text-secondary text-lg max-w-2xl">
                                 Experience the future of UI with our 50 curated design systems. Swappable in real-time, built for performance.
                             </p>
-                            <div className="flex flex-wrap justify-center gap-4 pt-4">
+                            <div className="flex flex-wrap justify-start gap-4 pt-4">
                                 <button className={`px-8 py-4 rounded-custom font-bold text-lg shadow-custom flex items-center gap-2 ${currentTheme === 'neo-brutalism' ? 'brutal-btn' : 'bg-accent text-accent-foreground hover:opacity-90'}`}>
                                     Get Started <Zap size={18} />
                                 </button>
@@ -882,20 +882,20 @@ const App = () => {
                                 </div>
                             </div>
 
-                            <div className="glass-card p-8">
-                                <h3 className="font-bold text-xl mb-6">Typography Scale Visualization</h3>
-                                <div className="space-y-8">
-                                    <div className="flex items-baseline gap-6">
-                                        <span className="text-[10px] font-mono text-text-secondary w-16">7xl</span>
-                                        <h1 className="text-7xl font-black">Design Everything</h1>
+                            <div className="glass-card p-6 md:p-8 text-left">
+                                <h3 className="font-bold text-xl mb-10 text-left">Typography Scale Visualization</h3>
+                                <div className="space-y-12">
+                                    <div className="space-y-3">
+                                        <span className="text-[10px] font-mono text-text-secondary uppercase tracking-widest bg-bg-secondary px-2 py-1 rounded">Scale: 7xl</span>
+                                        <h1 className="text-7xl font-black leading-[0.9] text-left">Design <br /> Themes</h1>
                                     </div>
-                                    <div className="flex items-baseline gap-6 border-t border-border-default pt-6">
-                                        <span className="text-[10px] font-mono text-text-secondary w-16">4xl</span>
-                                        <h2 className="text-4xl font-bold">The future of components</h2>
+                                    <div className="space-y-3 pt-6 border-t border-border-default">
+                                        <span className="text-[10px] font-mono text-text-secondary uppercase tracking-widest bg-bg-secondary px-2 py-1 rounded">Scale: 4xl</span>
+                                        <h2 className="text-4xl font-bold leading-tight text-left">The future of <br className="sm:hidden" /> components</h2>
                                     </div>
-                                    <div className="flex items-baseline gap-6 border-t border-border-default pt-6">
-                                        <span className="text-[10px] font-mono text-text-secondary w-16">xl</span>
-                                        <h3 className="text-xl font-semibold">Atomic design systems built for scale</h3>
+                                    <div className="space-y-3 pt-6 border-t border-border-default">
+                                        <span className="text-[10px] font-mono text-text-secondary uppercase tracking-widest bg-bg-secondary px-2 py-1 rounded">Scale: xl</span>
+                                        <h3 className="text-xl font-semibold leading-snug text-left">Atomic design systems <br className="sm:hidden" /> built for scale</h3>
                                     </div>
                                 </div>
                             </div>
