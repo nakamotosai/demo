@@ -121,13 +121,126 @@ const App = () => {
     };
     const [currentTheme, setCurrentTheme] = useState('luxury');
     const [layoutMode, setLayoutMode] = useState('dashboard'); // 'classic' or 'dashboard'
+    const [isLayoutMenuOpen, setIsLayoutMenuOpen] = useState(false);
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setStartX(e.pageX - (scrollRef.current?.offsetLeft || 0));
+        setScrollLeft(scrollRef.current?.scrollLeft || 0);
+    };
+
+    const handleMouseLeaveOrUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - (scrollRef.current?.offsetLeft || 0);
+        const walk = (x - startX) * 2; // scroll-fast
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft = scrollLeft - walk;
+        }
+    };
+
+    const handleWheel = (e: React.WheelEvent) => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft += e.deltaY;
+        }
+    };
+
+    const layoutOptions = [
+        { id: 'classic', label: 'Classic Page', icon: <Layout size={14} /> },
+        { id: 'dashboard', label: 'Dashboard', icon: <Zap size={14} /> },
+        { id: 'patterns', label: 'Patterns Grid', icon: <Plus size={14} /> },
+        { id: 'themes-view', label: 'Themes Gallery', icon: <Palette size={14} /> },
+        { id: 'docs', label: 'Documentation', icon: <Type size={14} /> },
+    ];
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', currentTheme);
     }, [currentTheme]);
 
+
     return (
-        <div className="flex h-screen overflow-hidden bg-bg-primary">
+        <div className="flex h-screen overflow-hidden bg-bg-primary flex-col md:flex-row">
+            {/* Mobile Header Controls */}
+            <div className="md:hidden flex flex-col gap-2 p-2 relative z-50 bg-bg-primary border-b border-border-default shrink-0">
+                {/* Row 1: Theme Wheel Selector */}
+                <div
+                    ref={scrollRef}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeaveOrUp}
+                    onMouseUp={handleMouseLeaveOrUp}
+                    onMouseMove={handleMouseMove}
+                    onWheel={handleWheel}
+                    className="flex overflow-x-auto gap-2 p-1 snap-x items-center h-16 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                    <div className="shrink-0 flex items-center gap-1.5 px-3 text-accent text-sm font-black uppercase tracking-wider">
+                        <span>拖动选择</span>
+                        <ChevronRight size={16} className="animate-bounce-x" />
+                    </div>
+                    {themes.map((theme) => (
+                        <button
+                            key={theme.id}
+                            onClick={() => setCurrentTheme(theme.id)}
+                            className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border transition-all snap-center whitespace-nowrap ${currentTheme === theme.id
+                                ? 'bg-accent text-accent-foreground border-accent shadow-custom scale-105 font-bold'
+                                : 'bg-bg-secondary text-text-primary border-border-default opacity-70'
+                                }`}
+                        >
+                            {theme.icon}
+                            <span className="text-xs">{theme.name}</span>
+                        </button>
+                    ))}
+                </div>
+
+                {/* Row 2: Layout Selector (Custom Dropdown) */}
+                <div className="flex w-full relative">
+                    <button
+                        onClick={() => setIsLayoutMenuOpen(!isLayoutMenuOpen)}
+                        className="w-full flex items-center justify-between bg-bg-secondary border border-border-default text-text-primary py-3 px-4 rounded-custom font-bold text-sm shadow-sm transition-all focus:border-accent"
+                    >
+                        <span className="flex items-center gap-2">
+                            点击切换布局: {layoutOptions.find(opt => opt.id === layoutMode)?.label}
+                        </span>
+                        <Layers size={16} className={`transition-transform duration-200 ${isLayoutMenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {isLayoutMenuOpen && (
+                        <>
+                            <div
+                                className="fixed inset-0 z-40"
+                                onClick={() => setIsLayoutMenuOpen(false)}
+                            />
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-bg-secondary border border-border-default rounded-custom shadow-xl z-50 overflow-hidden glass-card animate-in fade-in slide-in-from-top-2 duration-200">
+                                {layoutOptions.map((option) => (
+                                    <button
+                                        key={option.id}
+                                        onClick={() => {
+                                            setLayoutMode(option.id);
+                                            setIsLayoutMenuOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-3 text-sm font-bold flex items-center gap-3 transition-colors ${layoutMode === option.id
+                                            ? 'bg-accent text-accent-foreground'
+                                            : 'text-text-primary hover:bg-bg-primary'
+                                            }`}
+                                    >
+                                        {option.icon}
+                                        {option.label}
+                                        {layoutMode === option.id && <Check size={14} className="ml-auto" />}
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
             {/* Sidebar - Theme Switcher */}
             <aside className={`w-80 glass-card m-4 hidden md:flex flex-col overflow-hidden transition-all duration-300 h-[calc(100vh-2rem)]`}>
                 <div className="p-6 border-b border-border-default">
@@ -185,9 +298,9 @@ const App = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto h-screen custom-scrollbar relative">
-                {/* Navbar Demo */}
-                <nav className="glass-card px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+            <main className="flex-1 p-4 md:p-8 space-y-8 overflow-y-auto h-[calc(100vh-8rem)] md:h-screen custom-scrollbar relative">
+                {/* Navbar Demo - Hidden on Mobile since we have Top Controls */}
+                <nav className="glass-card px-6 py-4 hidden md:flex items-center justify-between sticky top-0 z-50">
                     <div className="flex items-center gap-8">
                         <span className="font-black text-base tracking-tighter">此处切换<span className="text-accent">demo</span>布局</span>
                         <div className="hidden lg:flex items-center gap-6 text-sm font-medium">
@@ -827,7 +940,7 @@ const App = () => {
                         </div>
                     )
                 }
-            </main >
+            </main>
         </div >
     );
 };
