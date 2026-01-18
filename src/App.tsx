@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import indexCss from './index.css?raw';
 import {
     Palette,
     Layout,
@@ -32,10 +33,12 @@ import {
     Plus,
     ArrowRight,
     Check,
-    Terminal
+    Terminal,
+    Download
 } from 'lucide-react';
 
 const themes = [
+    { id: 'luxury', name: 'Luxury', icon: <Moon size={18} />, description: 'Sleek black premium gold.' },
     { id: 'minimal', name: 'Modern Minimal', icon: <Zap size={18} />, description: 'Clean, professional, and accessible.' },
     { id: 'glassmorphism', name: 'Glassmorphism', icon: <Layers size={18} />, description: 'Transparent, blurred backgrounds.' },
     { id: 'neo-brutalism', name: 'Neo-Brutalism', icon: <Box size={18} />, description: 'Bold borders and high contrast.' },
@@ -65,7 +68,6 @@ const themes = [
     { id: 'sunset', name: 'Sunset', icon: <Sun size={18} />, description: 'Warm oranges soft purples.' },
     { id: 'berry', name: 'Berry', icon: <Palette size={18} />, description: 'Rich magentas deep reds.' },
     { id: 'royal', name: 'Royal', icon: <Layers size={18} />, description: 'Purples and elegant gold.' },
-    { id: 'luxury', name: 'Luxury', icon: <Moon size={18} />, description: 'Sleek black premium gold.' },
     { id: 'coffee', name: 'Coffee', icon: <Palette size={18} />, description: 'Earthy browns warm creams.' },
     { id: 'mint', name: 'Mint', icon: <Zap size={18} />, description: 'Fresh energetic greens.' },
     { id: 'lavender', name: 'Lavender', icon: <Sun size={18} />, description: 'Soft calming purple tones.' },
@@ -88,8 +90,36 @@ const themes = [
     { id: 'dashed', name: 'Dashed / Draft', icon: <Layout size={18} />, description: 'Conceptual unfinished draft.' },
 ];
 
+
 const App = () => {
-    const [currentTheme, setCurrentTheme] = useState('minimal');
+    const downloadCSS = (themeId: string, themeName: string) => {
+        let cssBlock = '';
+        if (themeId === 'minimal') {
+            const match = indexCss.match(/:root\s*\{([^}]+)\}/);
+            if (match) cssBlock = `:root {${match[1]}}`;
+        } else {
+            const regex = new RegExp(`\\[data-theme="${themeId}"\\]\\s*\\{([^}]+)\\}`, 'm');
+            const match = indexCss.match(regex);
+            if (match) cssBlock = `[data-theme="${themeId}"] {${match[1]}}`;
+        }
+
+        if (!cssBlock) {
+            alert('Theme CSS not found!');
+            return;
+        }
+
+        const content = `/* Antigravity UI - ${themeName} Theme */\n${cssBlock}`;
+        const blob = new Blob([content], { type: 'text/css' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${themeId}-theme.css`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+    const [currentTheme, setCurrentTheme] = useState('luxury');
     const [layoutMode, setLayoutMode] = useState('dashboard'); // 'classic' or 'dashboard'
 
     useEffect(() => {
@@ -104,7 +134,8 @@ const App = () => {
                     <h1 className="text-xl font-bold flex items-center gap-2">
                         Antigravity UI <Zap className="text-accent" />
                     </h1>
-                    <p className="text-text-secondary text-sm mt-1">50 Styles Live Preview</p>
+                    <p className="text-text-secondary text-sm mt-1">50种UI效果预览</p>
+                    <a href="https://saaaai.com" target="_blank" rel="noopener noreferrer" className="text-text-secondary text-sm mt-1 hover:text-text-primary transition-colors block">作者中本蔡个人主页 saaaai.com</a>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
@@ -112,29 +143,44 @@ const App = () => {
                         <p className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Select Style (50/50)</p>
                     </div>
                     {themes.map((theme) => (
-                        <button
-                            key={theme.id}
-                            onClick={() => setCurrentTheme(theme.id)}
-                            className={`w-full text-left p-4 rounded-custom transition-all group relative overflow-hidden ${currentTheme === theme.id
-                                ? 'bg-accent text-accent-foreground shadow-custom'
-                                : 'hover:bg-bg-secondary text-text-primary'
-                                }`}
-                        >
-                            <div className="flex items-center gap-3 relative z-10">
-                                {theme.icon}
-                                <div>
-                                    <div className="font-bold">{theme.name}</div>
-                                    <div className={`text-xs ${currentTheme === theme.id ? 'opacity-80' : 'text-text-secondary'}`}>
-                                        {theme.description}
+                        <div key={theme.id} className="relative group">
+                            <button
+                                onClick={() => setCurrentTheme(theme.id)}
+                                className={`w-full text-left p-4 rounded-custom transition-all group relative overflow-hidden ${currentTheme === theme.id
+                                    ? 'bg-accent text-accent-foreground shadow-custom'
+                                    : 'hover:bg-bg-secondary text-text-primary'
+                                    }`}
+                            >
+                                <div className="flex items-center gap-3 relative z-10">
+                                    {theme.icon}
+                                    <div>
+                                        <div className="font-bold">{theme.name}</div>
+                                        <div className={`text-xs ${currentTheme === theme.id ? 'opacity-80' : 'text-text-secondary'}`}>
+                                            {theme.description}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </button>
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    downloadCSS(theme.id, theme.name);
+                                }}
+                                className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 ${currentTheme === theme.id
+                                    ? 'text-accent-foreground hover:bg-white/20'
+                                    : 'text-text-secondary hover:bg-bg-primary hover:text-accent shadow-sm border border-border-default'
+                                    }`}
+                                title="Download CSS"
+                            >
+                                <Download size={14} />
+                            </button>
+                        </div>
                     ))}
                 </div>
 
-                <div className="p-6 border-t border-border-default text-xs text-text-secondary text-center">
-                    Pro Max v2.0 • 2026
+                <div className="p-6 border-t border-border-default text-sm text-text-secondary text-center flex justify-center gap-2">
+                    <a href="https://saaaai.com" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">作者中本蔡个人主页</a>
+                    <a href="https://saaaai.com" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">saaaai.com</a>
                 </div>
             </aside>
 
@@ -143,7 +189,7 @@ const App = () => {
                 {/* Navbar Demo */}
                 <nav className="glass-card px-6 py-4 flex items-center justify-between sticky top-0 z-50">
                     <div className="flex items-center gap-8">
-                        <span className="font-black text-2xl tracking-tighter">PR<span className="text-accent">O</span></span>
+                        <span className="font-black text-base tracking-tighter">此处切换<span className="text-accent">demo</span>布局</span>
                         <div className="hidden lg:flex items-center gap-6 text-sm font-medium">
                             <div className="flex bg-bg-secondary p-1 rounded-lg border border-border-default mr-4">
                                 <button
